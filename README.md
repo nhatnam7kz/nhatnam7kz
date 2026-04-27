@@ -8,7 +8,7 @@
 
 ---
 
-## 🧑‍💻 About Me
+##  About Me
 
 ```yaml
 name:       Nhat Nam
@@ -20,7 +20,7 @@ status:     Learning & Building
 
 ---
 
-## 🔧 Tech Stack
+##  Tech Stack
 
 **Languages**
 
@@ -39,7 +39,7 @@ status:     Learning & Building
 
 ---
 
-## 🎯 Current Focus
+##  Current Focus
 
 | Area | Status |
 |------|--------|
@@ -49,7 +49,7 @@ status:     Learning & Building
 
 ---
 
-## 📊 GitHub Stats
+##  GitHub Stats
 
 <div align="center">
 
