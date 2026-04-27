@@ -21,13 +21,9 @@
 ![VS Code](https://img.shields.io/badge/VS_Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
 
 ## 📊 GitHub Stats
-![](https://github-readme-stats.shion.dev/api?username=nhatnam7kz&theme=dracula&hide_border=false&include_all_commits=false&count_private=false)
 
-![](https://streak-stats.demolab.com/?user=nhatnam7kz&theme=dracula&hide_border=false)
-
-![](https://github-readme-stats.shion.dev/api/top-langs/?username=nhatnam7kz&theme=dracula&hide_border=false&include_all_commits=false&count_private=false&layout=compact)
-
-## ✍️ Random Dev Quote
-![](https://quotes-github-readme.vercel.app/api?type=horizontal&theme=radical)
-
----
+<p align="center">
+  <img src="https://github-readme-stats.shion.dev/api?username=nhatnam7kz&theme=dracula&hide_border=false&include_all_commits=false&count_private=false" height="200"/>
+  &nbsp;&nbsp;&nbsp;
+  <img src="https://github-readme-stats.shion.dev/api/top-langs/?username=nhatnam7kz&theme=dracula&hide_border=false&include_all_commits=false&count_private=false&layout=compact" height="200"/>
+</p>
