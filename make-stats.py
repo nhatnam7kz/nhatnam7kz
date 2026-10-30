@@ -16,10 +16,13 @@ def get(url):
 def fetch():
     u = get(f"https://api.github.com/users/{USER}")
     repos = [r for r in get(f"https://api.github.com/users/{USER}/repos?per_page=100&type=owner") if not r["fork"]]
-    langs = {}
+    langs = {}  # ngôn ngữ -> tổng số byte code trên mọi repo
     for r in repos:
-        if r["language"]:
-            langs[r["language"]] = langs.get(r["language"], 0) + 1
+        try:
+            for name, nbytes in get(f"https://api.github.com/repos/{USER}/{r['name']}/languages").items():
+                langs[name] = langs.get(name, 0) + nbytes
+        except Exception as e:
+            print("Bỏ qua repo", r["name"], "-", e)
     tot = sum(langs.values()) or 1
     top = sorted(langs.items(), key=lambda x: -x[1])[:4]
     return dict(repos=u["public_repos"], stars=sum(r["stargazers_count"] for r in repos),
@@ -79,6 +82,7 @@ if __name__ == "__main__":
     try:
         data = fetch()
     except Exception as e:
-        print("Không lấy được số liệu, giữ nguyên file cũ:", e); sys.exit(0)
+        print("LỖI - không lấy được số liệu, giữ nguyên file cũ:", repr(e), file=sys.stderr)
+        sys.exit(1)  # báo đỏ trong Actions để bạn biết có lỗi
     OUT.write_text(build(data), encoding="utf-8")
     print("OK", data)
