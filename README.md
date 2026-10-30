@@ -11,8 +11,8 @@
 <h3 align="center">Projects</h3>
 
 <p align="center">
-  <a href="https://marketplace.visualstudio.com/items?itemName=nhatnam7kz.c-auto-template"><img src="./projects-ext.svg" width="430" alt="C/C++ Auto Template" /></a>
-  <a href="https://github.com/nhatnam7kz/TrueClose"><img src="./projects-app.svg" width="430" alt="TrueClose" /></a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=nhatnam7kz.c-auto-template"><img src="./projects-ext.svg" width="400" alt="C/C++ Auto Template" /></a>
+  <a href="https://github.com/nhatnam7kz/TrueClose"><img src="./projects-app.svg" width="400" alt="TrueClose" /></a>
 </p>
 
 <h3 align="center">Tech Stack</h3>
