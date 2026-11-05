@@ -8,7 +8,12 @@ USER = "nhatnam7kz"
 COLORS = ["#60a5fa", "#5eead4", "#a78bfa", "#fbbf24", "#f472b6", "#fb923c",
           "#34d399", "#38bdf8", "#e879f9", "#a3e635", "#f87171", "#94a3b8"]  # hết màu thì lặp lại
 
-EXCLUDE = set()                 # ngôn ngữ không tính, ví dụ {"Jupyter Notebook"}; để set() là hiện hết
+# Chỉ tính ngôn ngữ lập trình: loại markup / style / dữ liệu / văn bản / build script.
+# Thêm hoặc bớt tên tùy ý (tên đúng như GitHub hiển thị). Muốn tính hết thì để set().
+EXCLUDE = {"HTML", "CSS", "SCSS", "Sass", "Less", "Jupyter Notebook", "Markdown", "TeX",
+           "JSON", "YAML", "XML", "XSLT", "Dockerfile", "Makefile", "CMake", "Batchfile"}
+OTHERS = "Others"               # gộp mọi ngôn ngữ có tỉ lệ <= 1% vào mục này
+OTHERS_COLOR = "#64748b"
 SKIP_REPOS = set()              # tên repo muốn bỏ qua, ví dụ {"ten-repo-bai-tap"}
 
 
@@ -52,9 +57,13 @@ def fetch():
     for n, c in ranked:
         print(f"{n}: {c} bytes ({c * 100 / total_all:.1f}%)")
 
-    tot = sum(c for _, c in ranked) or 1  # hiện tất cả ngôn ngữ, tổng luôn = 100%
+    tot = sum(c for _, c in ranked) or 1  # chia theo tổng các ngôn ngữ lập trình, tổng luôn = 100%
+    main = [(n, c / tot * 100) for n, c in ranked if c / tot * 100 > 1]
+    small = sum(c / tot * 100 for n, c in ranked if c / tot * 100 <= 1)
+    if small > 0:
+        main.append((OTHERS, small))  # gộp các ngôn ngữ <= 1% thành "Others"
     return dict(repos=len(repos), stars=sum(r["stargazers_count"] for r in repos),
-                followers=u["followers"], langs=[(n, c / tot * 100) for n, c in ranked])
+                followers=u["followers"], langs=main)
 
 
 def font(name, family, weight):
@@ -76,7 +85,7 @@ def build(d):
     bar, leg, x0, W = "", "", 560, 340
     pos = x0
     for i, (n, p) in enumerate(langs):
-        col = COLORS[i % len(COLORS)]
+        col = OTHERS_COLOR if n == OTHERS else COLORS[i % len(COLORS)]
         w = W * p / 100
         last = i == len(langs) - 1
         seg = (x0 + W - pos) if last else max(w - 2, 1.5)  # đoạn cuối kéo hết đến mép để đủ 100%
@@ -92,6 +101,7 @@ def build(d):
     rows = max(1, (len(langs) + 1) // 2)
     CH = max(130, 104 + (rows - 1) * 20 + 6)  # chiều cao thẻ tự giãn theo số hàng legend
     H, CH1 = CH + 40, CH - 1
+    dy = (CH - 130) / 2  # đẩy khối thông tin repo xuống để luôn căn giữa theo chiều dọc của thẻ
     if not langs:
         bar = f'<rect x="{x0}" y="70" width="{W}" height="8" rx="4" fill="#fff" fill-opacity=".1"/>'
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="{H}" viewBox="0 0 1000 {H}">
@@ -114,7 +124,7 @@ def build(d):
 <rect x="40.5" y="20.5" width="919" height="{CH1}" rx="25.5" fill="none" stroke="url(#edge)"/>
 <line x1="74" y1="20.8" x2="926" y2="20.8" stroke="#fff" stroke-opacity=".5" stroke-width="1.5" stroke-linecap="round"/>
 <rect x="40.5" y="20.5" width="919" height="{CH1}" rx="25.5" fill="none" stroke="url(#beam)" stroke-width="1.6" pathLength="1000" stroke-dasharray="90 910" stroke-linecap="round"><animate attributeName="stroke-dashoffset" values="0;-1000" dur="8s" repeatCount="indefinite"/></rect>
-<text x="84" y="56" class="eb">GITHUB</text>{stats}
+<g transform="translate(0,{dy:g})"><text x="84" y="56" class="eb">GITHUB</text>{stats}</g>
 <text x="{x0}" y="56" class="eb">TOP LANGUAGES</text>{bar}{leg}
 </svg>'''
 
